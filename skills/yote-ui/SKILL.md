@@ -1,6 +1,6 @@
 ---
 name: yote-ui
-description: How to build React form fields with Yöte (npm package `yote-ui`), a zero-dependency input library with one shared prop vocabulary across nine fields. Use this skill whenever the user mentions Yöte, Yote, yote-ui, or asks to build, fix or style a form, sign-up flow, checkout, OTP or verification screen, phone field, date field, card field, tags field or searchable select in a React or Next.js project that already has yote-ui installed or where a lightweight styled input library would fit. Also use it when wiring Yöte into Tailwind v4, theming it with tokens, or debugging layer-order issues such as the digit input showing raw text over its cells.
+description: "How to build React form fields with Yöte (npm package `yote-ui`), a zero-dependency input library with one shared prop vocabulary across nine fields. Use this skill whenever the user mentions Yöte, Yote, yote-ui, or asks to build, fix or style a form, sign-up flow, checkout, OTP or verification screen, phone field, date field, card field, tags field or searchable select in a React or Next.js project that already has yote-ui installed or where a lightweight styled input library would fit. Also use it when wiring Yöte into Tailwind v4, theming it with tokens, or debugging layer-order issues such as the digit input showing raw text over its cells."
 ---
 
 # Yöte (yote-ui)

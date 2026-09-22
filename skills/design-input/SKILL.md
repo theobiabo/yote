@@ -1,6 +1,6 @@
 ---
 name: design-input
-description: Design a form input in the Yöte system from scratch, making the decisions in the order that determines whether it belongs and whether it holds up: should it exist in Yöte at all, what value it returns, what it inherits, how it sizes, how every state looks, what must never shift, how it moves, how it behaves under the keyboard and a screen reader. Resolves token values from the project's own stylesheets, so designs follow the consumer's theme rather than Yöte's defaults. Writes the spec and the implementation. Use when asked to design, spec, mock up or build a new input, field or form control in the Yöte style, extend an existing Yöte field, or add a state or size to one. For using the shipped components in an app use yote-ui.
+description: "Design a form input in the Yöte system from scratch, making the decisions in the order that determines whether it belongs and whether it holds up: should it exist in Yöte at all, what value it returns, what it inherits, how it sizes, how every state looks, what must never shift, how it moves, how it behaves under the keyboard and a screen reader. Resolves token values from the project's own stylesheets, so designs follow the consumer's theme rather than Yöte's defaults. Writes the spec and the implementation. Use when asked to design, spec, mock up or build a new input, field or form control in the Yöte style, extend an existing Yöte field, or add a state or size to one. For using the shipped components in an app use yote-ui."
 ---
 
 # Designing Inputs
