@@ -15,7 +15,7 @@ in every session.
 form inputs, extremely well. Styled and animated out of the box rather than
 headless.
 
-The name comes from the Finnish *syöte*, meaning input. It is pronounced "yoat"
+The name comes from the Finnish _syöte_, meaning input. It is pronounced "yoat"
 in English. Sister project to Luotain, which is Finnish for sonar probe. The
 Finnish naming is deliberate house style and should continue for future projects.
 
@@ -37,13 +37,13 @@ point at when the temptation arrives.
 
 ## 2. Naming and domain decisions, already made
 
-| Thing | Decision | Notes |
-| --- | --- | --- |
-| npm package | `yote-ui` | Bare `yote` is taken by a dormant CLI from Fugitive Labs, last published ~5 years ago. Check `@yote/*` scope availability first; if free, `@yote/input` is preferable long term. |
-| GitHub repo | `Tsavsar/yote` | Brand is Yöte everywhere that matters. The install string is not the product name. |
-| Docs domain | `yote.shatermt.com` | Precedent: `sonner.emilkowal.ski`, `vaul.emilkowal.ski`. Costs nothing, ships today, and links the library back to the portfolio. |
-| Avoid | `.io` | Most expensive renewal of the realistic options, plus live ccTLD uncertainty from the UK–Mauritius Chagos treaty signed May 2025. Not urgent, but no upside. |
-| Optional later | `yote.dev` | Cheap, Google operated, HSTS preloaded. Grab it if available even if unused. |
+| Thing          | Decision            | Notes                                                                                                                                                                            |
+| -------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| npm package    | `yote-ui`           | Bare `yote` is taken by a dormant CLI from Fugitive Labs, last published ~5 years ago. Check `@yote/*` scope availability first; if free, `@yote/input` is preferable long term. |
+| GitHub repo    | `Tsavsar/yote`      | Brand is Yöte everywhere that matters. The install string is not the product name.                                                                                               |
+| Docs domain    | `yote.shatermt.com` | Precedent: `sonner.emilkowal.ski`, `vaul.emilkowal.ski`. Costs nothing, ships today, and links the library back to the portfolio.                                                |
+| Avoid          | `.io`               | Most expensive renewal of the realistic options, plus live ccTLD uncertainty from the UK–Mauritius Chagos treaty signed May 2025. Not urgent, but no upside.                     |
+| Optional later | `yote.dev`          | Cheap, Google operated, HSTS preloaded. Grab it if available even if unused.                                                                                                     |
 
 **Brand colour.** `#7D52F4`. Note that `hsla(256, 88%, 64%)` resolves to `#7E52F4`,
 one value off in red. The Figma variable `feature-base` is `#7D52F4` and that is
@@ -63,19 +63,29 @@ yote/
 ├── package.json                 workspaces: ["packages/*", "apps/*"]
 ├── CLAUDE.md                    this file
 ├── README.md
+├── skills/                      agent skills, published from the repo
+│   ├── design-input/            designing a new field in the Yöte system
+│   └── yote-ui/                 using the shipped components in an app
 ├── packages/
 │   └── yote-ui/
 │       ├── package.json
 │       ├── tsconfig.json
 │       ├── tsup.config.ts
 │       └── src/
-│           ├── index.ts         barrel export
-│           ├── styles.css       all component CSS, inside @layer yote
-│           ├── pin-input.tsx    FIRST COMPONENT
-│           ├── input.tsx        scaffolded, comes second
+│           ├── index.ts          barrel export
+│           ├── styles.css        all component CSS, inside @layer yote
+│           ├── types.ts          YoteFieldProps, the shared contract
+│           ├── input.tsx         the shape every other field follows
+│           ├── pin-input.tsx     textarea.tsx  password-input.tsx
+│           ├── phone-input.tsx   select-input.tsx  inline-select.tsx
+│           ├── tags-input.tsx    date-input.tsx  card-input.tsx
+│           ├── icons.tsx  flags.tsx  card-marks.tsx
 │           └── lib/
+│               ├── popover.ts    placement, dismiss, listbox keys
+│               ├── mask.ts       pattern masking for date and card
 │               ├── use-composed-ref.ts
-│               └── set-native-value.ts
+│               ├── set-native-value.ts
+│               └── warn-exclusive.ts
 └── apps/
     └── site/                    Next.js App Router
         ├── app/
@@ -83,31 +93,32 @@ yote/
         │   ├── docs/
         │   │   ├── layout.tsx   sidebar shell
         │   │   ├── page.tsx     getting started
-        │   │   ├── pin-input/page.tsx
-        │   │   ├── theming/page.tsx
-        │   │   └── accessibility/page.tsx
+        │   │   ├── input/  digit-input/  textarea/  password/  phone/
+        │   │   ├── select/  tags/  date/  card/
+        │   │   ├── styling/  accessibility/  skills/
+        │   │   └── metadata.ts
         │   └── layout.tsx
         └── components/
-            ├── predictive-arc.tsx   the WebGL background
+            ├── docs-routes.ts       the running order, read by nav and pager
             ├── preview.tsx          preview + code panel shell
+            ├── search.tsx           the ⌘K palette
             └── state-switcher.tsx
 ```
 
 ---
 
-## 4. Build order
+## 4. Where this got to
 
-1. `packages/yote-ui` scaffold: package.json, tsconfig, tsup config, empty barrel
-2. `styles.css` token layer
-3. `pin-input.tsx` with all five states
-4. `apps/site` scaffold, Next.js, imports the workspace package
-5. Landing page with the shader background and a live pin input hero
-6. Docs routes
-7. Deploy to Vercel, point `yote.shatermt.com`
-8. Only then: `input.tsx`, the text field
+The original build order ran to the end: the package scaffold, the token layer,
+the pin input, the site, the docs, the deploy, then the text field. All of it
+shipped. `yote-ui@1.0.0` is on npm and the site is live at `yote.shatermt.com`.
 
-Do not start the text field until the pin input is finished and deployed. One
-finished component beats two half-built ones.
+Nine components ship: `Input`, `PinInput`, `Textarea`, `PasswordInput`,
+`PhoneInput`, `SelectInput` (with `InlineSelect`), `TagsInput`, `DateInput` and
+`CardInput`. The rule that produced them still applies to anything added next:
+one finished component beats two half-built ones. A tenth field is designed with
+the `design-input` skill in `skills/`, which writes down the decisions the nine
+were built on.
 
 ---
 
@@ -123,7 +134,7 @@ Nothing in a component is hardcoded except layout structure.
   --yote-stroke-soft: rgba(0, 0, 0, 0.05);
   --yote-text-strong: #171717;
   --yote-text-sub: #5c5c5c;
-  --yote-text-soft: #8a8a8a;
+  --yote-text-soft: #a3a3a3;
 
   --yote-feature-base: #7d52f4;
   --yote-feature-dark: #351a75;
@@ -133,9 +144,9 @@ Nothing in a component is hardcoded except layout structure.
   --yote-error-faint: #ffc0c5;
 
   --yote-radius-xl: 24px;
-  --yote-shadow-xs: 0 2px 4px -1px rgba(0,0,0,0.02), 0 5px 13px -5px rgba(0,0,0,0.05);
+  --yote-shadow-xs: 0 2px 4px -1px rgba(0, 0, 0, 0.02), 0 5px 13px -5px rgba(0, 0, 0, 0.05);
   --yote-focus-active: 0 0 0 2px var(--yote-bg-default), 0 0 0 4px var(--yote-purple-alpha-24);
-  --yote-focus-error:  0 0 0 2px var(--yote-bg-default), 0 0 0 4px var(--yote-error-faint);
+  --yote-focus-error: 0 0 0 2px var(--yote-bg-default), 0 0 0 4px var(--yote-error-faint);
 
   --yote-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --yote-duration: 160ms;
@@ -143,11 +154,24 @@ Nothing in a component is hardcoded except layout structure.
 ```
 
 Dark theme: override the same names under **both** `@media (prefers-color-scheme: dark)`
-scoped as `:root:not([data-theme="light"])` **and** `:root[data-theme="dark"]`, so
-system preference and an explicit attribute both work.
+scoped as `:root:not([data-theme='light'])` **and** a bare `[data-theme='dark']`,
+so system preference and an explicit attribute both work.
 
-**The dark values have not been designed yet.** Whatever is in the prototype is a
-placeholder derivation, not from the Figma file. Ask before treating them as final.
+The attribute selectors are deliberately **not** prefixed with `:root`. Written
+bare they match any element, so a single container can be flipped to the other
+theme while the rest of the page stays as it is. The docs site uses that for the
+per-component theme control on each preview stage.
+
+**Composed tokens have to be restated in every theme block.** `--yote-focus-active`
+and `--yote-focus-error` read other tokens through `var()`, and a custom property
+substitutes at the element where it is _declared_, not where it is used. Declare
+them only in the light block and `html` bakes the light ring into a finished
+string, which a dark-flipped container then inherits: correct dark inputs, white
+ring. This cost a day. Any new composed token goes in all three blocks.
+
+**The dark values are still a derivation, not a design.** They are in the
+stylesheet and they ship, but they were reasoned out from the light palette
+rather than read from the Figma file. Ask before treating them as final.
 
 **Why not Tailwind classes in the components.** Shipping Tailwind classes inside an
 npm package means inheriting the consumer's config, their version, their content
@@ -199,28 +223,34 @@ Pulled from Figma file `Lg86E9AM1taQ7aZ57HHRVc`, nodes 6-4571, 6-4603, 6-4614,
 
 ### Geometry
 
-| Property | Value |
-| --- | --- |
-| Cell size | 87.5 × 66 px |
-| Cell radius | 24px (`--yote-radius-xl`) |
-| Gap between cells | 10px |
-| Digit type | 30px, 38px line height, 0.3px tracking, centred |
-| Digit colour | `--yote-text-strong` #171717 |
+| Property          | Value                                                            |
+| ----------------- | ---------------------------------------------------------------- |
+| Cell size         | 87.5 × 66 px (the width is a ceiling, see below)                 |
+| Cell radius       | 24px (`--yote-radius-xl`), held as a ratio when the cell shrinks |
+| Gap between cells | 10px                                                             |
+| Digit type        | 30px, 38px line height, 0.3px tracking, centred                  |
+| Digit colour      | `--yote-text-strong` #171717                                     |
 
 Four cells plus three 10px gaps comes to exactly **380px**, which is the same
 width as the text field in Luotain. The 87.5 is a fit-to-380 value, not a round
-number. Five and six cells keep the 87.5 cell and let the group grow to 477.5 and
-575. (Open question below.)
+number. Five and six cells keep the 87.5 cell and let the group grow to 477.5 and 575.
+
+What ships treats 87.5 as a maximum rather than a fixed width. The group is a
+container (`container-type: inline-size`) and the cell is
+`min(87.5px, (100cqi - gaps) / length)`, so six cells in a 320px column shrink to
+fit instead of overflowing. The radius follows at `0.2743 × width` with a 14px
+floor, so a narrow cell keeps the Figma proportion rather than rounding into a
+pill.
 
 ### The five states
 
-| State | Treatment |
-| --- | --- |
-| **Idle** | `bg-default` background, 1px `stroke-soft` border, `shadow-xs` |
-| **Active** | 1.5px `feature-base` border, `focus-active` ring, **no** `shadow-xs`, caret visible |
-| **Used** | Identical to idle plus the digit. No ring. This is a filled, unfocused field. |
-| **Error** | 1px `error-base` border, `focus-error` ring, digits recoloured to `error-base` |
-| **Disabled** | `bg-surface` background, **no border, no shadow**, digits transparent (hidden, not dimmed) |
+| State        | Treatment                                                                                                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------ |
+| **Idle**     | `bg-default` background, 1px `stroke-soft` border, `shadow-xs`                                               |
+| **Active**   | 1.5px `feature-base` border, `focus-active` ring, **no** `shadow-xs`, caret visible                          |
+| **Used**     | Identical to idle plus the digit. No ring. This is a filled, unfocused field.                                |
+| **Error**    | 1px `error-base` border, `focus-error` ring, digits recoloured to `error-base`                               |
+| **Disabled** | `bg-surface` background, border kept but **transparent**, no shadow, digits transparent (hidden, not dimmed) |
 
 ### The caret
 
@@ -318,11 +348,11 @@ form libraries and focus management work without anyone reading the source.
 
 ### Digit input specific props: only three
 
-| Prop | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `length` | `number` | `4` | Cell count, also sets `maxLength` |
-| `onComplete` | `(value: string) => void` | — | Fires when the last cell fills |
-| `mask` | `boolean` | `false` | Dots instead of digits, for PINs |
+| Prop         | Type                      | Default | Notes                             |
+| ------------ | ------------------------- | ------- | --------------------------------- |
+| `length`     | `number`                  | `4`     | Cell count, also sets `maxLength` |
+| `onComplete` | `(value: string) => void` | —       | Fires when the last cell fills    |
+| `mask`       | `boolean`                 | `false` | Dots instead of digits, for PINs  |
 
 Parts for `classNames`: `root`, `cell`, `digit`, `caret`.
 
@@ -333,14 +363,14 @@ Parts for `classNames`: `root`, `cell`, `digit`, `caret`.
 Every component exposes state as data attributes on the DOM, so states can be
 styled from outside without adding props. Same names on every component.
 
-| Design state | Attribute | Sits on |
-| --- | --- | --- |
-| Idle | no attribute | — |
-| Active | `data-active` | the focused cell |
-| Used | `data-filled` | root and each filled cell |
-| Error | `data-invalid` | root |
-| Disabled | `data-disabled` | root |
-| — | `data-focused`, `data-readonly`, `data-size` | root |
+| Design state | Attribute                                    | Sits on                   |
+| ------------ | -------------------------------------------- | ------------------------- |
+| Idle         | no attribute                                 | —                         |
+| Active       | `data-active`                                | the focused cell          |
+| Used         | `data-filled`                                | root and each filled cell |
+| Error        | `data-invalid`                               | root                      |
+| Disabled     | `data-disabled`                              | root                      |
+| —            | `data-focused`, `data-readonly`, `data-size` | root                      |
 
 This is what makes the Tailwind story real:
 
@@ -356,13 +386,13 @@ Easing: `--yote-ease-out: cubic-bezier(0.23, 1, 0.32, 1)`. The built-in CSS
 easings are too weak to read as intentional. **Never `ease-in` on UI.** It delays
 the initial movement, which is the exact moment the user is watching.
 
-| Element | Duration | Notes |
-| --- | --- | --- |
-| Border and background transitions | 160ms | `ease` |
-| Focus ring fade | 160ms | `--yote-ease-out` |
-| Digit entering a cell | 140ms | scale from 0.9 plus opacity |
-| Error shake | 280ms | decaying amplitude |
-| Caret blink | 1.06s | `steps(1, end)` |
+| Element                           | Duration | Notes                       |
+| --------------------------------- | -------- | --------------------------- |
+| Border and background transitions | 160ms    | `ease`                      |
+| Focus ring fade                   | 160ms    | `--yote-ease-out`           |
+| Digit entering a cell             | 140ms    | scale from 0.9 plus opacity |
+| Error shake                       | 280ms    | decaying amplitude          |
+| Caret blink                       | 1.06s    | `steps(1, end)`             |
 
 Rules:
 
@@ -426,7 +456,9 @@ an inset ring:
 ```css
 .yote-cell[data-active] {
   border-color: var(--yote-feature-base);
-  box-shadow: inset 0 0 0 0.5px var(--yote-feature-base), var(--yote-focus-active);
+  box-shadow:
+    inset 0 0 0 0.5px var(--yote-feature-base),
+    var(--yote-focus-active);
 }
 ```
 
@@ -555,14 +587,18 @@ or exempt this one file. Do not relax the flag repo-wide.
   "name": "yote-ui",
   "type": "module",
   "sideEffects": ["**/*.css"],
-  "files": ["dist"],
+  "files": ["dist", "NOTICE", "LICENSE", "README.md", "styles.css.d.ts"],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": {
+      "types": "./styles.css.d.ts",
+      "default": "./dist/styles.css"
+    },
+    "./package.json": "./package.json"
   },
   "peerDependencies": { "react": ">=18", "react-dom": ">=18" }
 }
@@ -582,9 +618,14 @@ import { PinInput } from 'yote-ui'
 import 'yote-ui/styles.css'
 ```
 
+`styles.css.d.ts` is not decoration. Without a `types` condition on that export,
+a consumer on `moduleResolution: "bundler"` with strict TypeScript gets `TS2882`
+on the import line. Found by installing the packed tarball into a clean project,
+which is the only way to catch it.
+
 Sonner injects its CSS via a style tag for zero-import DX, which is better but
-fights server rendering and makes override order hard to reason about. Revisit at
-v0.2 once the visual language has settled.
+fights server rendering and makes override order hard to reason about. Not doing
+it at 1.0: the import is one line and the override order stays legible.
 
 ---
 
@@ -598,26 +639,42 @@ Separate Vercel project pointed at `apps/site`. Custom domain
 
 ## 18. Open questions, do not guess
 
-1. **Tailwind v3 or v4?** Blocks the theming docs page.
-2. **Five and six cells:** keep the 87.5 cell and let the group grow to 477.5 and
-   575, or hold 380 total and shrink the cell to 68 and 55.83? Current default is
-   fixed cell.
-3. **Error persistence:** does the error clear on the next keypress, or stay until
-   the consumer clears it? Current behaviour is persist, with the shake replaying
-   per failed attempt.
-4. **Caret blink** at 1.06s, and **digit scale-in** from 0.9 over 140ms. Neither is
-   in the Figma. Confirm or remove.
-5. **Dark theme tokens** have not been designed. The prototype values are a
-   derivation, not from the file.
-6. **npm scope:** is `@yote/*` available? Changes the install string.
+Answered by what shipped, kept here so the reasoning is not lost:
+
+1. **Tailwind v4.** The styling page and the README both document the v4 layer
+   order, `@layer theme, base, yote, components, utilities`.
+2. **Five and six cells** keep the 87.5 cell and grow the group, but shrink below
+   it when the container is too narrow. See section 7.
+3. **Error persists** until the consumer clears it, and the shake replays per
+   failed attempt through `errorKey`.
+4. **Caret blink at 1.06s and the 140ms digit scale-in** both shipped.
+5. **npm scope:** published as `yote-ui`. `@yote/*` was not pursued.
+
+Still open:
+
+6. **Dark theme tokens** are a derivation rather than a design. `text-sub`,
+   `text-soft`, `feature-base` and `error-base` in dark were reasoned out from
+   the light palette, not read from the Figma file. Worth a pass in the file.
+7. **No tests.** Not one. The behaviour that would break silently — paste into
+   the pin input, the mask refusing to type a literal ahead of the caret, the
+   popover flipping against the viewport — is verified by hand today.
 
 ---
 
-## 19. Explicitly out of scope for v0
+## 19. Explicitly out of scope
 
-Selects, comboboxes, date pickers, textareas, checkboxes, radios, file upload,
-form state management, validation logic, masking and formatting for the text
-field, and the compound `Input.Root` API. The compound API should be shaped by
-real usage rather than guessed at.
+The original list ruled out selects, date fields, text areas and masking. Those
+shipped, and the line moved rather than dissolved. It now sits where the README
+puts it:
+
+**Yöte does fields.** Not form state, not validation logic, and not the things
+that sit on top of a field rather than in it: there is a date field but no
+calendar, a select field but no combobox library, a card field but no card
+validator. Validation state is accepted as a prop and the library renders it;
+the library never decides what is correct, guesses a locale, or holds state
+across fields.
+
+Also still out: checkboxes, radios, file upload, and the compound `Input.Root`
+API, which should be shaped by real usage rather than guessed at.
 
 A narrow library that is finished beats a broad one that is forty percent done.

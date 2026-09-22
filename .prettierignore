@@ -1,0 +1,6 @@
+# The skills are written to a house style that is not Prettier's: narrow
+# markdown tables, one-line CSS rules, long template strings. Formatting them
+# pads every table to the width of its longest cell, which costs context in a
+# file an agent loads on every invocation, and has already put a stray
+# semicolon in front of a documented JSX snippet.
+skills/

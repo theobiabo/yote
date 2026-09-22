@@ -86,6 +86,11 @@ export const DOCS_GROUPS: { title: string; links: DocsLink[] }[] = [
         label: 'Accessibility',
         blurb: 'what every field does without being asked. None of it is opt-in.',
       },
+      {
+        href: '/docs/skills',
+        label: 'Skills',
+        blurb: 'two agent skills, so an agent building a form gets the rules rather than guessing.',
+      },
     ],
   },
 ]

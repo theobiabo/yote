@@ -4,8 +4,9 @@ import { TagsPreview } from '../../../components/tags-preview'
 import { docsMetadata } from '../metadata'
 
 const OWN_PROPS = [
-  ['value', 'string[]', '—', 'The tags, controlled. `onChange` gives the next array.'],
+  ['value', 'string[]', '—', 'The tags, controlled.'],
   ['defaultValue', 'string[]', '[]', 'The tags, uncontrolled.'],
+  ['onChange', '(value: string[]) => void', '—', 'Receives the next array, never the event.'],
   ['tagsPosition', "'outside' | 'inside'", "'outside'", 'Where the tags sit.'],
   ['inputValue', 'string', '—', 'The text in the field, if you want to drive it.'],
   ['onInputValueChange', '(value: string) => void', '—', 'Fires as that text changes.'],
@@ -18,7 +19,16 @@ const OWN_PROPS = [
     '"Remove {tag}"',
     'Accessible name for each remove button.',
   ],
+  ['listLabel', 'string', "'Selected'", 'Accessible name for the list the tags sit in.'],
 ]
+
+/*
+ * The three the array version replaces. Showing the shared table whole would
+ * put `value: string` a few lines under `value: string[]`, which is the kind of
+ * contradiction a reader trusts the table less for.
+ */
+const OVERRIDDEN = ['value', 'defaultValue', 'onChange']
+const SHARED_REST = SHARED_PROPS.filter((row) => !OVERRIDDEN.includes(row[0] as string))
 
 const PLACEMENTS = [
   ['outside', 'A row under the field', 'Figma 6:4209. The field keeps one line forever.'],
@@ -87,11 +97,14 @@ export default function TagsDocsPage() {
       <h3 className="docs-h3">Shared</h3>
       <p className="docs-p">
         The same contract as every other field, with one difference:{' '}
-        <code className="inline-code">value</code> is a{' '}
-        <code className="inline-code">string[]</code> rather than a{' '}
+        <code className="inline-code">value</code>,{' '}
+        <code className="inline-code">defaultValue</code> and{' '}
+        <code className="inline-code">onChange</code> work in{' '}
+        <code className="inline-code">string[]</code> rather than{' '}
         <code className="inline-code">string</code>, because the value of this field is a list.
+        Those three are in the table above; the rest are unchanged.
       </p>
-      <PropsTable head={['Prop', 'Type', 'Default', 'Notes']} rows={SHARED_PROPS} />
+      <PropsTable head={['Prop', 'Type', 'Default', 'Notes']} rows={SHARED_REST} />
     </>
   )
 }

@@ -44,6 +44,10 @@ function prose(source) {
         /^\s*(export\s+)?(const|let|var|interface|type|function)\s+[\w$]+[^\n]*?[=[{(]\s*$/gm,
         ' ',
       )
+      /* A whole declaration on one line — `const REPO = 'https://…'` — which
+         the rule above leaves alone because it does not end in an opener.
+         Nobody reads a bare URL constant, so it should not be quotable. */
+      .replace(/^\s*(export\s+)?(const|let|var)\s+[\w$]+(\s*:[^=\n]+)?\s*=\s*['"`][^\n]*$/gm, ' ')
       .replace(/className=(".*?"|\{.*?\})/gs, ' ')
       .replace(/(href|id|filename|key|rows|head|dateTime)=(".*?"|\{.*?\})/gs, ' ')
       .replace(/<[^>]*>/g, ' ')

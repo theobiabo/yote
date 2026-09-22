@@ -5,7 +5,7 @@ vocabulary shared by every field.
 
 **Zero dependencies · 24KB gzipped · TypeScript**
 
-From the Finnish *syöte*, input. Pronounced "yoat".
+From the Finnish _syöte_, input. Pronounced "yoat".
 
 ```bash
 npm i yote-ui
@@ -15,24 +15,24 @@ npm i yote-ui
 import { Input } from 'yote-ui'
 import 'yote-ui/styles.css'
 
-<Input label="Last name" hint="As it appears on your card." />
+;<Input label="Last name" hint="As it appears on your card." />
 ```
 
 Documentation and live previews: **[yote.shatermt.com](https://yote.shatermt.com)**
 
 ## What is in it
 
-| Component | |
-| --- | --- |
-| `Input` | One line, with room at either end for a mark or a text affix. |
-| `PinInput` | One-time codes and PINs. Paste, autofill and the SMS suggestion all work. |
-| `Textarea` | Multi-line entry with a counter, a drag handle and three sizes. |
-| `PasswordInput` | Masked entry with a reveal toggle and a requirements block you define. |
-| `PhoneInput` | A dialling country and a national number, kept as two values. |
-| `SelectInput` | A field that is its own search. `InlineSelect` sits inside another field. |
-| `TagsInput` | A list you build by typing, under the field or inside it. |
-| `DateInput` | Typed, not picked. The field types the punctuation for you. |
-| `CardInput` | Regroups itself as it recognises the card, and the mark changes with it. |
+| Component       |                                                                           |
+| --------------- | ------------------------------------------------------------------------- |
+| `Input`         | One line, with room at either end for a mark or a text affix.             |
+| `PinInput`      | One-time codes and PINs. Paste, autofill and the SMS suggestion all work. |
+| `Textarea`      | Multi-line entry with a counter, a drag handle and three sizes.           |
+| `PasswordInput` | Masked entry with a reveal toggle and a requirements block you define.    |
+| `PhoneInput`    | A dialling country and a national number, kept as two values.             |
+| `SelectInput`   | A field that is its own search. `InlineSelect` sits inside another field. |
+| `TagsInput`     | A list you build by typing, under the field or inside it.                 |
+| `DateInput`     | Typed, not picked. The field types the punctuation for you.               |
+| `CardInput`     | Regroups itself as it recognises the card, and the mark changes with it.  |
 
 ## One vocabulary
 
@@ -93,6 +93,19 @@ fight. On Tailwind v4, declare the layer order before importing anything:
 
 `yote` has to sit after `base`, because Tailwind's preflight resets form
 controls, and before `utilities`, so your classes still override ours.
+
+## For agents
+
+Building a new field, or extending one? The `design-input` skill teaches your
+agent the rules Yöte was built on: the states, the tokens, the things that must
+never shift. It designs in your theme, read straight from your stylesheet. The
+`yote-ui` skill covers using the components in an app.
+
+```bash
+npx skills@latest add Tsavsar/yote
+```
+
+See [skills/](skills).
 
 ## Development
 
